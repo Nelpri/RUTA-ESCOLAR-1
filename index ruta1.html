@@ -35,14 +35,10 @@
     <section class="info-section" aria-labelledby="vehicle-details">
       <h2 id="vehicle-details">🚗 Detalles del Vehículo</h2>
       <div class="vehicle-details">
-        <img src="assets/bus-icon.jpg" alt="Vehículo escolar tipo bus, placa TZQ-913" class="vehicle-img" width="300" height="200" loading="lazy">
+        <img src="assets/bus-icon.jpg" alt="Vehículo escolar tipo bus, placa TZQ-913" class="vehicle-img">
         <ul>
           <li><strong>Placa:</strong> TZQ-913</li>
-          <li><strong>Conductor:</strong> Nelson Prieto <br>
-              <a href="tel:+573153287083" aria-label="Llamar al conductor">
-                📞 315 328 7083
-              </a>
-          </li>
+          <li><strong>Conductor:</strong> Nelson Prieto <br>📞 3153287083</li>
           <li><strong>Monitora:</strong> Olga Fajardo</li>
         </ul>
       </div>
@@ -53,19 +49,19 @@
       <h2 id="payment-info">💳 Información de Pagos</h2>
       <div class="payment-methods" role="list">
         <div class="method" role="listitem">
-          <img src="assets/daviplata-logo.jpeg" alt="Logo DaviPlata" width="100" height="100" loading="lazy">
+          <img src="assets/daviplata-logo.jpeg" alt="Logo DaviPlata" aria-hidden="true">
           <p>315 328 7083</p>
         </div>
         <div class="method" role="listitem">
-          <img src="assets/nequi-logo.jpeg" alt="Logo Nequi" width="100" height="100" loading="lazy">
+          <img src="assets/nequi-logo.jpeg" alt="Logo Nequi" aria-hidden="true">
           <p>315 328 7083</p>
         </div>
         <div class="method" role="listitem">
-          <img src="assets/efectivo.jpeg" alt="Pago en efectivo" width="100" height="100" loading="lazy">
+          <img src="assets/efectivo.jpeg" alt="Pago en efectivo" aria-hidden="true">
           <p>Efectivo</p>
         </div>
       </div>
-      <p class="payment-alert" role="alert">⚠️ Pagos antes del 5 de cada mes</p>
+      <p class="payment-alert">⚠️ Pagos antes del 5 de cada mes</p>
     </section>
 
     <!-- Sección: Contacto -->
@@ -73,33 +69,30 @@
       <h2 id="contact-section">📞 Contacto</h2>
       <p>
         Teléfono: <a href="tel:+573153287083">315 328 7083</a><br>
-        Email: <a href="mailto:yoyotzq913@gmail.com">yoyotzq913@gmail.com</a>
+        Email: <a href="mailto:rutescol@ejemplo.com">yoyotzq913@gmail.com</a>
       </p>
     </section>
 
-    <!-- Sección: Inscripción con validación mejorada -->
+    <!-- Sección: Inscripción -->
     <section class="info-section" id="registrationSection" aria-labelledby="registration-heading">
       <h2 id="registration-heading">📝 Inscripción</h2>
       <form id="registrationForm" novalidate>
         <div class="form-group">
           <label for="studentName">Nombre del Alumno:</label>
-          <input type="text" id="studentName" required aria-required="true" minlength="3" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Por favor ingrese un nombre válido">
+          <input type="text" id="studentName" required aria-required="true">
           <span class="error-message" aria-live="polite"></span>
         </div>
         <div class="form-group">
-          <label for="parentName">Nombre del Acudiente:</label>
-          <input type="text" id="parentName" required aria-required="true" minlength="3" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Por favor ingrese un nombre válido">
-          <span class="error-message" aria-live="polite"></span>
+          <label for="parentName">Nombre del Padre/Madre:</label>
+          <input type="text" id="parentName" required aria-required="true">
         </div>
         <div class="form-group">
           <label for="email">Correo Electrónico:</label>
-          <input type="email" id="email" required aria-required="true" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Por favor ingrese un correo electrónico válido">
-          <span class="error-message" aria-live="polite"></span>
+          <input type="email" id="email" required aria-required="true">
         </div>
         <div class="form-group">
           <label for="phone">Teléfono:</label>
-          <input type="tel" id="phone" pattern="[0-9]{10}" required aria-required="true" title="Por favor ingrese un número de 10 dígitos">
-          <span class="error-message" aria-live="polite"></span>
+          <input type="tel" id="phone" pattern="[0-9]{10}" required aria-required="true">
         </div>
         <div class="form-group">
           <label for="routeType">Tipo de Ruta:</label>
@@ -126,15 +119,16 @@
             <option value="Noviembre">Noviembre</option>
           </select>
         </div>
-        <div class="form-group terms">
-          <input type="checkbox" id="terms" required aria-required="true">
-          <label for="terms">Acepto los <a href="#" id="termsLink">términos y condiciones</a></label>
-        </div>
-        <button type="submit" class="btn">Inscribir <i class="fas fa-spinner loading-icon"></i></button>
+         <!-- Nuevo campo de términos y condiciones -->
+      <div class="form-group terms">
+        <input type="checkbox" id="terms" required aria-required="true">
+        <label for="terms">Acepto los <a href="#" id="termsLink">términos y condiciones</a></label>
+      </div>
+      <button type="submit" class="btn">Inscribir <i class="fas fa-spinner loading-icon"></i></button>
       </form>
     </section>
-    
-    <div id="termsModal" class="modal" role="dialog" aria-labelledby="modalTitle">
+     <!-- Nuevo modal de términos y condiciones -->
+     <div id="termsModal" class="modal" role="dialog" aria-labelledby="modalTitle">
       <div class="modal-content">
           <span class="close-modal">&times;</span>
           <h3 id="modalTitle">Términos y Condiciones</h3>
@@ -155,6 +149,9 @@
       </div>
     </div>
 
+
+    <!-- Sección: Comprobante de Pago -->
+    
     <section class="info-section receipt" id="paymentReceipt" aria-labelledby="receipt-heading">
       <h2 id="receipt-heading">💵 Comprobante de Pago</h2>
       <p><strong>Fecha:</strong> <span id="receiptDate"></span></p>
@@ -163,13 +160,4 @@
       <p><strong>Responsable:</strong> <span id="receiptParentName"></span></p>
       <p><strong>Ruta:</strong> <span id="receiptRouteType"></span></p>
       <p><strong>Valor:</strong> $<span id="receiptAmount"></span></p>
-      <p><strong>Mes:</strong> <span id="receiptMonth"></span></p>
-    </section>
-
-  </main>
-
-  <script src="js/validation.js" defer></script>
-  <script src="js/form-handler.js" defer></script>
-  <script src="js/receipt-generator.js" defer></script>
-</body>
-</html>
+      <p><strong>Mes:</strong> <span id=
