@@ -8,6 +8,7 @@
   <title>Ruta Escolar Segura | Transporte Estudiantil</title>
   <link rel="stylesheet" href="css/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  
 </head>
 <body>
   <header role="banner">
@@ -90,6 +91,34 @@
       </p>
     </section>
 
+    <!-- Sección: Verificar Recibo -->
+    <section class="verify-section">
+      <h2>Verificar Recibo</h2>
+      <form id="verificarRecibo" class="verify-form">
+        <div class="form-group">
+          <label for="nombreVerificacion">Nombre del Estudiante:</label>
+          <input type="text" id="nombreVerificacion" required>
+        </div>
+        <div class="form-group">
+          <label for="mesVerificacion">Mes:</label>
+          <select id="mesVerificacion" required>
+            <option value="">Seleccione el mes</option>
+            <option value="Febrero">Febrero</option>
+            <option value="Marzo">Marzo</option>
+            <option value="Abril">Abril</option>
+            <option value="Mayo">Mayo</option>
+            <option value="Junio">Junio</option>
+            <option value="Julio">Julio</option>
+            <option value="Agosto">Agosto</option>
+            <option value="Septiembre">Septiembre</option>
+            <option value="Octubre">Octubre</option>
+            <option value="Noviembre">Noviembre</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Verificar y Generar Recibo</button>
+      </form>
+    </section>
+
     <!-- Sección: Inscripción -->
     <section class="info-section" id="registrationSection" aria-labelledby="registration-heading">
       <h2 id="registration-heading">📝 Inscripción</h2>
@@ -154,7 +183,7 @@
     </section>
 
     <!-- Sección: Comprobante de Pago -->
-    <section class="info-section receipt" id="paymentReceipt" aria-labelledby="receipt-heading">
+    <section class="info-section receipt" id="paymentReceipt" aria-labelledby="receipt-heading" style="display: none;">
       <h2 id="receipt-heading">💵 Comprobante de Pago</h2>
       <p><strong>Número de Comprobante:</strong> <span id="receiptNumber"></span></p>
       <p><strong>Nombre del Alumno:</strong> <span id="receiptStudentName"></span></p>
@@ -162,35 +191,6 @@
       <p><strong>Tipo de Ruta:</strong> <span id="receiptRouteType"></span></p>
       <p><strong>Valor a Pagar:</strong> $<span id="receiptAmount"></span></p>
       <p><strong>Mes de Cancelación:</strong> <span id="receiptMonth"></span></p>
-      <button id="downloadReceipt" class="btn">Descargar Comprobante</button>
-    </section>
-
-    <!-- Sección: Verificar Recibo -->
-    <section class="verify-section">
-      <h2>Verificar Recibo</h2>
-      <form id="verificarRecibo" class="verify-form">
-        <div class="form-group">
-          <label for="nombreVerificacion">Nombre del Estudiante:</label>
-          <input type="text" id="nombreVerificacion" required>
-        </div>
-        <div class="form-group">
-          <label for="mesVerificacion">Mes:</label>
-          <select id="mesVerificacion" required>
-            <option value="">Seleccione el mes</option>
-            <option value="Febrero">Febrero</option>
-            <option value="Marzo">Marzo</option>
-            <option value="Abril">Abril</option>
-            <option value="Mayo">Mayo</option>
-            <option value="Junio">Junio</option>
-            <option value="Julio">Julio</option>
-            <option value="Agosto">Agosto</option>
-            <option value="Septiembre">Septiembre</option>
-            <option value="Octubre">Octubre</option>
-            <option value="Noviembre">Noviembre</option>
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Verificar y Generar Recibo</button>
-      </form>
     </section>
   </main>
 
