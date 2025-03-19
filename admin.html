@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - Ruta Escolar Segura</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header role="banner" class="admin-header">
+        <div class="container">
+            <h1>🚌 Panel Administrativo</h1>
+            <nav>
+                <button id="btnLogout" class="btn btn-outline">Cerrar Sesión</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="admin-dashboard">
+            <h2>Estudiantes Inscritos</h2>
+            
+            <div class="filters">
+                <select id="filterMonth" class="form-control">
+                    <option value="">Todos los meses</option>
+                    <option value="Febrero">Febrero</option>
+                    <option value="Marzo">Marzo</option>
+                    <option value="Abril">Abril</option>
+                    <option value="Mayo">Mayo</option>
+                    <option value="Junio">Junio</option>
+                    <option value="Julio">Julio</option>
+                    <option value="Agosto">Agosto</option>
+                    <option value="Septiembre">Septiembre</option>
+                    <option value="Octubre">Octubre</option>
+                    <option value="Noviembre">Noviembre</option>
+                </select>
+            </div>
+
+            <div class="table-responsive">
+                <table id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Nombre Estudiante</th>
+                            <th>Grado</th>
+                            <th>Nombre Acudiente</th>
+                            <th>Teléfono</th>
+                            <th>Tipo Ruta</th>
+                            <th>Mes</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <!-- La tabla se llenará dinámicamente con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
