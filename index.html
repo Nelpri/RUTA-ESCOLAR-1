@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Servicio de transporte escolar confiable y seguro">
-    <meta name="keywords" content="transporte escolar, ruta escolar, seguridad infantil">
-    <title>Ruta Escolar Segura | Transporte Estudiantil</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Servicio de transporte escolar confiable y seguro">
+  <meta name="keywords" content="transporte escolar, ruta escolar, seguridad infantil">
+  <title>Ruta Escolar Segura | Transporte Estudiantil</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  
+</head>
 <body>
   <header role="banner">
     <div class="container">
       <h1>🚌 Ruta Escolar Segura</h1>
       <p>Servicio de transporte escolar confiable y seguro</p>
+      <nav>
+        <button id="btnLogin" class="btn btn-outline">Iniciar Sesión</button>
+      </nav>
     </div>
   </header>
+
+  <!-- Agregar el modal de login después del header -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Iniciar Sesión</h3>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Usuario:</label>
+          <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña:</label>
+          <input type="password" id="password" required>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary">Ingresar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <main class="container" role="main">
     <!-- Sección: Periodo del Servicio -->
@@ -33,8 +56,8 @@
         <img src="assets/bus-icon.jpg" alt="Vehículo escolar tipo bus, placa TZQ-913" class="vehicle-img">
         <ul>
           <li><strong>Placa:</strong> TZQ-913</li>
-          <li><strong>Conductor:</strong> Nelson Prieto <br>📞 3153287083</li>
-          <li><strong>Monitora:</strong> Olga Fajardo</li>
+          <li><strong>Conductor:</strong> Nelson Prieto 📞 315 328 7083</li>
+          <li><strong>Monitora:</strong> Olga Fajardo 📞 304 201 5028</li>
         </ul>
       </div>
     </section>
@@ -52,7 +75,7 @@
           <p>315 328 7083</p>
         </div>
         <div class="method" role="listitem">
-          <img src="assets/efectivo.jpeg" alt="Pago en efectivo" aria-hidden="true">
+          <img src="assets/efectivo.jpeg" alt="Logo efectivo" aria-hidden="true">
           <p>Efectivo</p>
         </div>
       </div>
@@ -64,44 +87,22 @@
       <h2 id="contact-section">📞 Contacto</h2>
       <p>
         Teléfono: <a href="tel:+573153287083">315 328 7083</a><br>
-        Email: <a href="mailto:rutescol@ejemplo.com">yoyotzq913@gmail.com</a>
+        Email: <a href="mailto:yoyotzq913@gmail.com">yoyotzq913@gmail.com</a>
       </p>
     </section>
 
-    <!-- Sección: Inscripción -->
-    <section class="info-section" id="registrationSection" aria-labelledby="registration-heading">
-      <h2 id="registration-heading">📝 Inscripción</h2>
-      <form id="registrationForm" novalidate>
+    <!-- Sección: Verificar Recibo -->
+    <section class="verify-section">
+      <h2>Verificar Recibo</h2>
+      <form id="verificarRecibo" class="verify-form">
         <div class="form-group">
-          <label for="studentName">Nombre del Alumno:</label>
-          <input type="text" id="studentName" required aria-required="true">
-          <span class="error-message" aria-live="polite"></span>
+          <label for="nombreVerificacion">Nombre del Estudiante:</label>
+          <input type="text" id="nombreVerificacion" required>
         </div>
         <div class="form-group">
-          <label for="parentName">Nombre del Padre/Madre:</label>
-          <input type="text" id="parentName" required aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="email">Correo Electrónico:</label>
-          <input type="email" id="email" required aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="phone">Teléfono:</label>
-          <input type="tel" id="phone" pattern="[0-9]{10}" required aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="routeType">Tipo de Ruta:</label>
-          <select id="routeType" required aria-required="true">
-            <option value="" disabled selected>Seleccione una opción</option>
-            <option value="media168">Media Ruta  - $168,000</option>
-            <option value="media180">Media Ruta  - $180,000</option>
-            <option value="completa">Ruta Completa - $284,000</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="paymentMonth">Mes de Cancelación:</label>
-          <select id="paymentMonth" required aria-required="true">
-            <option value="" disabled selected>Seleccione un mes</option>
+          <label for="mesVerificacion">Mes:</label>
+          <select id="mesVerificacion" required>
+            <option value="">Seleccione el mes</option>
             <option value="Febrero">Febrero</option>
             <option value="Marzo">Marzo</option>
             <option value="Abril">Abril</option>
@@ -114,45 +115,135 @@
             <option value="Noviembre">Noviembre</option>
           </select>
         </div>
-         <!-- Nuevo campo de términos y condiciones -->
-      <div class="form-group terms">
-        <input type="checkbox" id="terms" required aria-required="true">
-        <label for="terms">Acepto los <a href="#" id="termsLink">términos y condiciones</a></label>
-      </div>
-      <button type="submit" class="btn">Inscribir <i class="fas fa-spinner loading-icon"></i></button>
+        <button type="submit" class="btn btn-primary">Verificar y Generar Recibo</button>
       </form>
     </section>
-     <!-- Nuevo modal de términos y condiciones -->
-     <div id="termsModal" class="modal" role="dialog" aria-labelledby="modalTitle">
-      <div class="modal-content">
-          <span class="close-modal">&times;</span>
-          <h3 id="modalTitle">Términos y Condiciones</h3>
-          <div class="terms-content">
-              <p>1. El servicio se presta de lunes a viernes en horarios escolares.</p>
-              <p>2. Pagos antes del 5 de cada mes.</p>
-              <p>3. Notificar cambios con 48 horas de anticipación.</p>
-              <p>4. El conductor puede tomar medidas de seguridad necesarias.</p>
-          </div>
-      </div>
-  </div>
-    
-    <div id="authOverlay" class="alert-overlay">
-      <div class="auth-prompt">
-      <h3>Autorización del Conductor</h3>
-      <input type="password" id="authPassword" placeholder="Contraseña">
-      <button id="authButton" class="btn">Autorizar</button>
-      </div>
-    </div>
 
+    <!-- Sección: Inscripción -->
+    <section class="info-section" id="registrationSection" aria-labelledby="registration-heading">
+      <h2 id="registration-heading">📝 Inscripción</h2>
+      <form id="registrationForm" class="registration-form">
+        <div class="form-group">
+          <label for="nombreEstudiante">Nombre del Estudiante:</label>
+          <input type="text" id="nombreEstudiante" required>
+        </div>
+        <div class="form-group">
+          <label for="grado">Grado:</label>
+          <select id="grado" required>
+            <option value="">Seleccione el grado</option>
+            <option value="Preescolar">Preescolar</option>
+            <option value="Primero">Primero</option>
+            <option value="Segundo">Segundo</option>
+            <option value="Tercero">Tercero</option>
+            <option value="Cuarto">Cuarto</option>
+            <option value="Quinto">Quinto</option>
+            <option value="Sexto">Sexto</option>
+            <option value="Septimo">Septimo</option>
+            <option value="Octavo">Octavo</option>
+            <option value="Noveno">Noveno</option>
+            <option value="Decimo">Decimo</option>
+            <option value="Once">Once</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="nombreAcudiente">Nombre del Acudiente:</label>
+          <input type="text" id="nombreAcudiente" required>
+        </div>
+        <div class="form-group">
+          <label for="telefono">Teléfono:</label>
+          <input type="tel" id="telefono" required>
+        </div>
+        <div class="form-group">
+          <label for="tipoRuta">Tipo de Ruta:</label>
+          <select id="tipoRuta" required>
+            <option value="">Seleccione el tipo de ruta</option>
+            <option value="media168">Media Ruta ($168,000)</option>
+            <option value="media180">Media Ruta ($180,000)</option>
+            <option value="completa">Ruta Completa ($284,000)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="mes">Mes a pagar:</label>
+          <select id="mes" required>
+            <option value="">Seleccione el mes</option>
+            <option value="Febrero">Febrero</option>
+            <option value="Marzo">Marzo</option>
+            <option value="Abril">Abril</option>
+            <option value="Mayo">Mayo</option>
+            <option value="Junio">Junio</option>
+            <option value="Julio">Julio</option>
+            <option value="Agosto">Agosto</option>
+            <option value="Septiembre">Septiembre</option>
+            <option value="Octubre">Octubre</option>
+            <option value="Noviembre">Noviembre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-container">
+            <input type="checkbox" id="termsAccepted" required>
+            Acepto los <a href="#" id="termsLink">términos y condiciones</a>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Inscribir</button>
+      </form>
+    </section>
 
     <!-- Sección: Comprobante de Pago -->
-    
-    <section class="info-section receipt" id="paymentReceipt" aria-labelledby="receipt-heading">
+    <section class="info-section receipt hidden" id="paymentReceipt" aria-labelledby="receipt-heading">
       <h2 id="receipt-heading">💵 Comprobante de Pago</h2>
-      <p><strong>Fecha:</strong> <span id="receiptDate"></span></p>
-      <p><strong>Número:</strong> <span id="receiptNumber"></span></p>
-      <p><strong>Alumno:</strong> <span id="receiptStudentName"></span></p>
-      <p><strong>Responsable:</strong> <span id="receiptParentName"></span></p>
-      <p><strong>Ruta:</strong> <span id="receiptRouteType"></span></p>
-      <p><strong>Valor:</strong> $<span id="receiptAmount"></span></p>
-      <p><strong>Mes:</strong> <span id=
+      <p><strong>Número de Comprobante:</strong> <span id="receiptNumber"></span></p>
+      <p><strong>Nombre del Alumno:</strong> <span id="receiptStudentName"></span></p>
+      <p><strong>Nombre del Padre/Madre:</strong> <span id="receiptParentName"></span></p>
+      <p><strong>Tipo de Ruta:</strong> <span id="receiptRouteType"></span></p>
+      <p><strong>Valor a Pagar:</strong> $<span id="receiptAmount"></span></p>
+      <p><strong>Mes de Cancelación:</strong> <span id="receiptMonth"></span></p>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container">
+      <p>© Desarrollado por Nelson Prieto</p>
+      <p>© 2025 Ruta Escolar - Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- Modal de Términos y Condiciones -->
+  <div id="termsModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeTerms">&times;</span>
+      <h3>Términos y Condiciones</h3>
+      <div class="terms-content">
+        <h4>1. Servicio de Transporte Escolar</h4>
+        <p>El servicio de transporte escolar se prestará durante el período académico establecido.</p>
+        
+        <h4>2. Pagos</h4>
+        <ul>
+          <li>El pago debe realizarse en los primeros 5 días de cada mes</li>
+          <li>No hay reembolsos por días no utilizados</li>
+          <li>Los precios están sujetos a cambios con previo aviso</li>
+        </ul>
+
+        <h4>3. Responsabilidades</h4>
+        <ul>
+          <li>Los estudiantes deben estar listos en el punto de recogida a la hora establecida</li>
+          <li>Los cambios de dirección deben notificarse con al menos 24 horas de anticipación</li>
+          <li>Los padres deben notificar las ausencias con anticipación</li>
+        </ul>
+
+        <h4>4. Seguridad</h4>
+        <ul>
+          <li>Los estudiantes deben usar el cinturón de seguridad en todo momento</li>
+          <li>No se permite comer dentro del vehículo</li>
+          <li>Se debe mantener un comportamiento adecuado durante el trayecto</li>
+        </ul>
+      </div>
+      <div class="modal-actions">
+        <button id="acceptTerms" class="btn btn-primary">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
