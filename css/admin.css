@@ -1,114 +1,232 @@
-.admin-header {
-    background-color: var(--primary-color);
-    padding: 1rem 0;
-    margin-bottom: 2rem;
-}
-
-.admin-header h1 {
-    color: white;
-    margin: 0;
-}
+/* Estilos para el Panel de Administración */
 
 .admin-dashboard {
-    background-color: white;
-    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 1.5rem;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-.filters {
-    margin-bottom: 2rem;
+.stat-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
 }
 
-.table-responsive {
+.stat-card p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+/* Tabla de estudiantes */
+.student-list {
+    margin: 2rem 0;
     overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 th, td {
     padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--border-color);
 }
 
 th {
-    background-color: #f5f5f5;
-    font-weight: bold;
+    background: var(--primary-color);
+    color: var(--white);
 }
 
 tr:hover {
-    background-color: #f9f9f9;
+    background: var(--light-color);
 }
 
-.form-control {
+/* Control de Asistencia */
+.attendance-control {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.attendance-date {
+    margin-bottom: 1.5rem;
+}
+
+.attendance-date input {
     padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 200px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    margin-left: 1rem;
 }
 
+.attendance-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.attendance-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+.attendance-item label {
+    margin-left: 1rem;
+    flex-grow: 1;
+}
+
+/* Botones y Acciones */
 .btn-action {
-    padding: 0.25rem 0.5rem;
-    margin: 0 0.25rem;
-    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    margin: 0 0.25rem;
 }
 
-.btn-view {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
+.btn-edit {
+    background: var(--primary-color);
+    color: var(--white);
 }
 
 .btn-delete {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-}
-
-.dashboard-summary {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-radius: 5px;
-}
-
-.filters {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.no-data {
-    text-align: center;
-    padding: 2rem;
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    margin-top: 1rem;
-}
-
-#searchStudent {
-    min-width: 200px;
-}
-
-nav {
-    display: flex;
-    gap: 1rem;
-}
-
-.btn-outline {
-    border: 2px solid var(--white);
+    background: var(--secondary-color);
     color: var(--white);
-    padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
 }
 
-.btn-outline:hover {
-    background-color: var(--white);
-    color: var(--primary-color);
+/* Acciones de administrador */
+.admin-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
 }
+
+.admin-actions .btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+}
+
+.admin-actions .btn i {
+    font-size: 0.8rem;
+}
+
+/* Mejoras en la tabla */
+table {
+    font-size: 0.9rem;
+}
+
+th {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    vertical-align: middle;
+}
+
+/* Botones de acción mejorados */
+.btn-action {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    margin: 0 0.2rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Estados de pago mejorados */
+.status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status.pending {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.status.paid {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status.overdue {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-actions {
+        flex-direction: column;
+    }
+
+    .admin-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    th, td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .attendance-date {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .attendance-date input {
+        margin-left: 0;
+    }
+
+    .btn-action {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.7rem;
+        margin: 0.1rem;
+    }
+} 

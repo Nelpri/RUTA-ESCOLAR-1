@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Servicio de transporte escolar confiable y seguro">
+    <meta name="keywords" content="transporte escolar, ruta escolar, seguridad infantil">
+    <title>Ruta Escolar Segura | Transporte Estudiantil</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  </head>
+<body>
+  <header role="banner">
+    <div class="container">
+      <h1>🚌 Ruta Escolar Segura</h1>
+      <p>Servicio de transporte escolar confiable y seguro</p>
+      <nav>
+        <a href="index.html" class="btn">Panel Usuario</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <!-- Sección: Periodo del Servicio -->
+    <section class="info-section" aria-labelledby="service-period">
+      <h2 id="service-period">📅 Periodo del Servicio</h2>
+      <p>Febrero a Noviembre 2025</p>
+    </section>
+
+    <!-- Sección: Detalles del Vehículo -->
+    <section class="info-section" aria-labelledby="vehicle-details">
+      <h2 id="vehicle-details">🚗 Detalles del Vehículo</h2>
+      <div class="vehicle-details">
+        <img src="assets/bus-icon.jpg" alt="Vehículo escolar tipo bus, placa TZQ-913" class="vehicle-img">
+        <ul>
+          <li><strong>Placa:</strong> TZQ-913</li>
+          <li><strong>Conductor:</strong> Nelson Prieto <br>📞 3153287083</li>
+          <li><strong>Monitora:</strong> Olga Fajardo</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Sección: Información de Pagos -->
+    <section class="info-section" aria-labelledby="payment-info">
+      <h2 id="payment-info">💳 Información de Pagos</h2>
+      <div class="payment-methods" role="list">
+        <div class="method" role="listitem">
+          <img src="assets/daviplata-logo.jpeg" alt="Logo DaviPlata" aria-hidden="true">
+          <p>315 328 7083</p>
+        </div>
+        <div class="method" role="listitem">
+          <img src="assets/nequi-logo.jpeg" alt="Logo Nequi" aria-hidden="true">
+          <p>315 328 7083</p>
+        </div>
+        <div class="method" role="listitem">
+          <img src="assets/efectivo.jpeg" alt="Pago en efectivo" aria-hidden="true">
+          <p>Efectivo</p>
+        </div>
+      </div>
+      <p class="payment-alert">⚠️ Pagos antes del 5 de cada mes</p>
+    </section>
+
+    <!-- Sección: Contacto -->
+    <section class="info-section contact" aria-labelledby="contact-section">
+      <h2 id="contact-section">📞 Contacto</h2>
+      <p>
+        Teléfono: <a href="tel:+573153287083">315 328 7083</a><br>
+        Email: <a href="mailto:rutescol@ejemplo.com">yoyotzq913@gmail.com</a>
+      </p>
+    </section>
+
+    <!-- Sección: Inscripción -->
+    <section class="info-section" id="registrationSection" aria-labelledby="registration-heading">
+      <h2 id="registration-heading">📝 Inscripción</h2>
+      <div class="terms-notice" id="termsNotice">
+        <p><i class="fas fa-info-circle"></i> Para proceder con la inscripción, primero debe leer y aceptar los términos y condiciones.</p>
+        <button type="button" id="readTermsBtn" class="btn">Leer Términos y Condiciones</button>
+      </div>
+      <form id="registrationForm" novalidate style="display: none;">
+        <div class="form-group">
+          <label for="studentName">Nombre del Alumno:</label>
+          <input type="text" id="studentName" required aria-required="true">
+          <span class="error-message" aria-live="polite"></span>
+        </div>
+        <div class="form-group">
+          <label for="parentName">Nombre del Padre/Madre:</label>
+          <input type="text" id="parentName" required aria-required="true">
+        </div>
+        <div class="form-group">
+          <label for="email">Correo Electrónico:</label>
+          <input type="email" id="email" required aria-required="true">
+        </div>
+        <div class="form-group">
+          <label for="phone">Teléfono:</label>
+          <input type="tel" id="phone" pattern="[0-9]{10}" required aria-required="true">
+        </div>
+        <div class="form-group">
+          <label for="routeType">Tipo de Ruta:</label>
+          <select id="routeType" required aria-required="true">
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="media168">Media Ruta  - $168,000</option>
+            <option value="media180">Media Ruta  - $180,000</option>
+            <option value="completa">Ruta Completa - $284,000</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="paymentMonth">Mes de Cancelación:</label>
+          <select id="paymentMonth" required aria-required="true">
+            <option value="" disabled selected>Seleccione un mes</option>
+            <option value="Febrero">Febrero</option>
+            <option value="Marzo">Marzo</option>
+            <option value="Abril">Abril</option>
+            <option value="Mayo">Mayo</option>
+            <option value="Junio">Junio</option>
+            <option value="Julio">Julio</option>
+            <option value="Agosto">Agosto</option>
+            <option value="Septiembre">Septiembre</option>
+            <option value="Octubre">Octubre</option>
+            <option value="Noviembre">Noviembre</option>
+          </select>
+        </div>
+         <!-- Términos y condiciones -->
+         <div class="form-group terms">
+           <input type="checkbox" id="terms" required aria-required="true">
+           <label for="terms">Acepto los <a href="#" id="termsLink">términos y condiciones</a></label>
+         </div>
+         <button type="submit" class="btn" id="submitBtn" disabled>Inscribir <i class="fas fa-spinner loading-icon"></i></button>
+      </form>
+    </section>
+     <!-- Nuevo modal de términos y condiciones -->
+     <div id="termsModal" class="modal" role="dialog" aria-labelledby="modalTitle">
+      <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3 id="modalTitle">Términos y Condiciones</h3>
+          <div class="terms-content">
+              <h4>1. Servicio de Transporte Escolar</h4>
+              <p>El servicio se presta de lunes a viernes en horarios escolares establecidos por la institución educativa.</p>
+              
+              <h4>2. Pagos y Facturación</h4>
+              <p>Los pagos deben realizarse antes del día 5 de cada mes. Después de esta fecha se aplicará recargo del 10%.</p>
+              
+              <h4>3. Notificaciones</h4>
+              <p>Cualquier cambio en el servicio debe notificarse con 48 horas de anticipación.</p>
+              
+              <h4>4. Seguridad</h4>
+              <p>El conductor está autorizado a tomar las medidas de seguridad necesarias para garantizar el bienestar de los estudiantes.</p>
+              
+              <h4>5. Suspensión del Servicio</h4>
+              <p>El servicio puede suspenderse por incumplimiento en los pagos o por comportamiento inadecuado del estudiante.</p>
+              
+              <h4>6. Responsabilidad</h4>
+              <p>Los padres son responsables del comportamiento de sus hijos durante el transporte.</p>
+          </div>
+          <button id="acceptTerms" class="btn">Aceptar Términos</button>
+      </div>
+  </div>
+    
+    <div id="authOverlay" class="alert-overlay">
+      <div class="auth-prompt">
+      <h3>Autorización del Conductor</h3>
+      <input type="password" id="authPassword" placeholder="Contraseña">
+      <button id="authButton" class="btn">Autorizar</button>
+      </div>
+    </div>
+
+
+    <!-- Sección: Comprobante de Pago -->
+    
+    <section class="info-section receipt" id="paymentReceipt" aria-labelledby="receipt-heading">
+      <h2 id="receipt-heading">💵 Comprobante de Pago</h2>
+      <p><strong>Fecha:</strong> <span id="receiptDate"></span></p>
+      <p><strong>Número:</strong> <span id="receiptNumber"></span></p>
+      <p><strong>Alumno:</strong> <span id="receiptStudentName"></span></p>
+      <p><strong>Responsable:</strong> <span id="receiptParentName"></span></p>
+      <p><strong>Ruta:</strong> <span id="receiptRouteType"></span></p>
+      <p><strong>Valor:</strong> $<span id="receiptAmount"></span></p>
+      <p><strong>Mes:</strong> <span id="receiptMonth"></span></p>
+      <button id="downloadReceipt" class="btn" style="display: none;">Descargar Comprobante</button>
+      <p id="pendingMessage" style="display: none; color: #ff9800; font-weight: bold;">
+        <i class="fas fa-clock"></i> Comprobante pendiente de autorización del administrador
+      </p>
+    </section>
+
+    <!-- Notificación de inscripción exitosa -->
+    <div id="successNotification" class="success-notification" style="display: none;">
+      <div class="notification-content">
+        <h3><i class="fas fa-check-circle"></i> ¡Inscripción Exitosa!</h3>
+        <p>Su inscripción ha sido registrada correctamente. El administrador verificará el pago.</p>
+        <p><strong>Próximos pasos:</strong></p>
+        <ul>
+          <li>Realice el pago correspondiente</li>
+          <li>El administrador verificará el pago</li>
+          <li>Una vez autorizado, podrá descargar el comprobante</li>
+        </ul>
+        <button id="closeNotification" class="btn">Entendido</button>
+      </div>
+    </div>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container">
+      <p>© Desarrollado por Nelson Prieto</p>
+      <p>© 2025 Ruta Escolar - Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/notification.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

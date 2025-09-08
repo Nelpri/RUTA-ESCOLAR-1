@@ -55,5 +55,4 @@ class NotificationSystem {
     }
   }
   
-  const notificationSystem = new NotificationSystem();
-  export default notificationSystem; 
+  const notificationSystem = new NotificationSystem(); 

@@ -1,0 +1,28 @@
+[
+  {
+    "studentName": "Juan Prieto Fajardo",
+    "parentName": "Olga Fajardo",
+    "email": "nelpri69@gmail.com",
+    "phone": "3153287083",
+    "routeType": "completa",
+    "paymentMonth": "Septiembre",
+    "receiptNumber": 251257,
+    "amount": 284000,
+    "date": "2025-09-07T20:44:29.284353",
+    "status": "pending",
+    "id": 1757295869284
+  },
+  {
+    "studentName": "pluto",
+    "parentName": "Olga Fajardo",
+    "email": "n@hotmail.com",
+    "phone": "3153287083",
+    "routeType": "completa",
+    "paymentMonth": "Septiembre",
+    "receiptNumber": 251191,
+    "amount": 284000,
+    "date": "2025-09-07T20:53:38.743239",
+    "status": "paid",
+    "id": 1757296418743
+  }
+]
