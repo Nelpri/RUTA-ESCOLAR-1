@@ -1,9 +1,12 @@
 // CONFIG ya está disponible globalmente
-
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('registrationForm');
-    const termsModal = document.getElementById('termsModal');
+    // Referencias a elementos del DOM
+    const registrationForm = document.getElementById('registrationForm');
     const termsLink = document.getElementById('termsLink');
+    const termsModal = document.getElementById('termsModal');
+    const closeTerms = document.getElementById('closeTerms');
+    const acceptTerms = document.getElementById('acceptTerms');
+    const termsCheckbox = document.getElementById('termsAccepted');
     const closeModal = document.querySelector('.close-modal');
     const acceptTermsBtn = document.getElementById('acceptTerms');
     const readTermsBtn = document.getElementById('readTermsBtn');
@@ -14,6 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentReceipt = document.getElementById('paymentReceipt');
     let currentReceipt = null;
     let termsAccepted = false;
+
+    // Verificar que todos los elementos existen
+    if (!registrationForm) {
+        console.error('No se encontró el formulario de registro');
+        return;
+    }
 
     // Validación en tiempo real
     const initValidation = () => {
@@ -105,369 +114,264 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Generar comprobante
-    const generateReceipt = async (formData) => {
-        try {
-            const receiptNumber = generateReceiptNumber(formData.paymentMonth);
-            const amount = CONFIG.PRICES[formData.routeType];
-            
-            // Llenar datos del comprobante
-            document.getElementById('receiptNumber').textContent = receiptNumber;
-            document.getElementById('receiptStudentName').textContent = formData.studentName;
-            document.getElementById('receiptParentName').textContent = formData.parentName;
-            document.getElementById('receiptRouteType').textContent = getRouteTypeName(formData.routeType);
-            document.getElementById('receiptAmount').textContent = amount.toLocaleString();
-            document.getElementById('receiptMonth').textContent = formData.paymentMonth;
-            
-            // Mostrar comprobante (pendiente de autorización)
-            paymentReceipt.style.display = 'block';
-            paymentReceipt.scrollIntoView({ behavior: 'smooth' });
-            
-            // Mostrar mensaje de pendiente y ocultar botón de descarga
-            const downloadBtn = document.getElementById('downloadReceipt');
-            const pendingMessage = document.getElementById('pendingMessage');
-            if (downloadBtn) downloadBtn.style.display = 'none';
-            if (pendingMessage) pendingMessage.style.display = 'block';
-            
-            // Guardar en localStorage
-            saveRegistration(formData, receiptNumber);
-            
-            // Mostrar notificación de éxito
-            setTimeout(() => {
-                successNotification.style.display = 'block';
-                successNotification.scrollIntoView({ behavior: 'smooth' });
-            }, 1000);
-            
-            // Limpiar formulario después de inscripción exitosa
-            setTimeout(() => {
-                form.reset();
-                termsAccepted = false;
-                updateSubmitButton();
-                // Ocultar formulario y mostrar aviso de términos nuevamente
-                form.style.display = 'none';
-                termsNotice.style.display = 'block';
-            }, 3000);
-            
-        } catch (error) {
-            console.error('Error generando comprobante:', error);
-            alert('Error al generar el comprobante');
+    // Manejador del formulario de registro
+    registrationForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Obtener todos los campos del formulario
+        const nombreEstudiante = document.getElementById('nombreEstudiante');
+        const grado = document.getElementById('grado');
+        const nombreAcudiente = document.getElementById('nombreAcudiente');
+        const telefono = document.getElementById('telefono');
+        const tipoRuta = document.getElementById('tipoRuta');
+        const mes = document.getElementById('mes');
+
+        // Verificar que todos los campos existen y tienen valor
+        if (!nombreEstudiante || !grado || !nombreAcudiente || !telefono || !tipoRuta || !mes) {
+            alert('Error: Faltan campos en el formulario');
+            return;
         }
-    };
 
-    const generateReceiptNumber = (month) => {
-        const base = CONFIG.RECEIPT_BASES[month] || 250000;
-        const random = Math.floor(Math.random() * 1000);
-        return base + random;
-    };
+        if (!termsCheckbox.checked) {
+            alert('Debe aceptar los términos y condiciones');
+            return;
+        }
 
-    const getRouteTypeName = (routeType) => {
-        const names = {
-            'media168': 'Media Ruta - $168,000',
-            'media180': 'Media Ruta - $180,000',
-            'completa': 'Ruta Completa - $284,000'
+        // Crear objeto con datos del estudiante
+        const studentData = {
+            id: Date.now().toString(),
+            fecha: new Date().toLocaleDateString(),
+            nombreEstudiante: nombreEstudiante.value,
+            grado: grado.value,
+            nombreAcudiente: nombreAcudiente.value,
+            telefono: telefono.value,
+            tipoRuta: tipoRuta.value,
+            mes: mes.value,
+            precio: CONFIG.PRICES[tipoRuta.value]
         };
-        return names[routeType] || routeType;
-    };
 
-    const saveRegistration = async (formData, receiptNumber) => {
-        const registration = {
-            ...formData,
-            receiptNumber,
-            amount: CONFIG.PRICES[formData.routeType],
-            date: new Date().toISOString(),
-            status: 'pending'
-        };
+        // Guardar en localStorage
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        students.push(studentData);
+        localStorage.setItem('students', JSON.stringify(students));
+
+        // Crear y mostrar el recibo
+        const receiptHTML = `
+            <div id="receipt" style="background: white; padding: 20px; margin: 20px 0; border: 1px solid #ccc; border-radius: 8px;">
+                <h2>Recibo de Inscripción</h2>
+                <p><strong>Fecha:</strong> ${studentData.fecha}</p>
+                <p><strong>Estudiante:</strong> ${studentData.nombreEstudiante}</p>
+                <p><strong>Grado:</strong> ${studentData.grado}</p>
+                <p><strong>Acudiente:</strong> ${studentData.nombreAcudiente}</p>
+                <p><strong>Teléfono:</strong> ${studentData.telefono}</p>
+                <p><strong>Tipo de Ruta:</strong> ${studentData.tipoRuta}</p>
+                <p><strong>Mes:</strong> ${studentData.mes}</p>
+                <p><strong>Valor a Pagar:</strong> $${studentData.precio.toLocaleString()}</p>
+                <button onclick="window.print()" style="margin-top: 10px; padding: 8px 16px;">Imprimir Recibo</button>
+            </div>
+        `;
+
+        // Eliminar recibo anterior si existe
+        const oldReceipt = document.getElementById('receipt');
+        if (oldReceipt) {
+            oldReceipt.remove();
+        }
+
+        // Agregar nuevo recibo
+        const receiptContainer = document.createElement('div');
+        receiptContainer.innerHTML = receiptHTML;
+        registrationForm.after(receiptContainer);
+
+        // Mostrar mensaje de éxito
+        alert('Inscripción realizada con éxito. La página se recargará en 3 segundos.');
         
-        try {
-            if (api.isServerAvailable()) {
-                // Usar API del servidor
-                console.log('🌐 Usando API del servidor');
-                const savedRegistration = await api.createRegistration(registration);
-                console.log('✅ Inscripción guardada en servidor:', savedRegistration);
-            } else {
-                // Usar localStorage como fallback
-                console.log('💾 Usando localStorage como fallback');
-                registration.id = Date.now();
-                
-                const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
-                registrations.push(registration);
-                localStorage.setItem('registrations', JSON.stringify(registrations));
-                
-                // Verificar que se guardó correctamente
-                const savedData = localStorage.getItem('registrations');
-                console.log('✅ Datos guardados en localStorage:', savedData);
-                console.log('✅ Número de registros guardados:', registrations.length);
-                
-                // Disparar evento personalizado para sincronizar con otras pestañas
-                window.dispatchEvent(new CustomEvent('registrationUpdated', {
-                    detail: { registrations }
-                }));
-
-                // Usar BroadcastChannel para sincronización entre pestañas
-                if (typeof BroadcastChannel !== 'undefined') {
-                    const channel = new BroadcastChannel('registration-updates');
-                    channel.postMessage({ type: 'registrationAdded', data: registration });
-                    channel.close();
-                }
+        // Esperar 3 segundos y luego redirigir al inicio
+        setTimeout(() => {
+            // Limpiar el formulario
+            registrationForm.reset();
+            
+            // Eliminar el recibo
+            const receipt = document.getElementById('receipt');
+            if (receipt) {
+                receipt.remove();
             }
             
-            console.log('✅ Inscripción guardada exitosamente');
+            // Hacer scroll al inicio
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
             
-        } catch (error) {
-            console.error('❌ Error al guardar inscripción:', error);
-            alert('Error al guardar la inscripción. Intenta nuevamente.');
-        }
-    };
+            // Recargar la página
+            location.reload();
+        }, 3000); // 3000 milisegundos = 3 segundos
+    });
 
-    // Función para mostrar mensaje de éxito
-    const showSuccessMessage = (studentName) => {
-        console.log(`Inscripción exitosa para: ${studentName}`);
-        // Aquí podrías agregar más lógica si necesitas notificar algo más
-    };
-
-    // Manejo del formulario
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = getFormData();
-            
-            if (validateForm(formData)) {
-                toggleLoading(true);
-                await generateReceipt(formData);
-                toggleLoading(false);
-            }
-        });
-    }
-
-    // Generar PDF
-    const downloadBtn = document.getElementById('downloadReceipt');
-    if (downloadBtn && paymentReceipt) {
-        downloadBtn.addEventListener('click', () => {
-            html2pdf().from(paymentReceipt).save();
-        });
-    }
-
-    // Manejo del botón "Leer Términos"
-    if (readTermsBtn) {
-        readTermsBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (termsModal) {
-                termsModal.style.display = 'block';
-            }
-        });
-    }
-
-    // Manejo del modal de términos y condiciones
-    if (termsLink) {
+    // Manejadores para términos y condiciones (solo si existen los elementos)
+    if (termsLink && termsModal && closeTerms && acceptTerms) {
         termsLink.addEventListener('click', (e) => {
             e.preventDefault();
-            if (termsModal) {
-                termsModal.style.display = 'block';
-            }
+            termsModal.style.display = 'block';
         });
-    }
 
-    if (closeModal) {
-        closeModal.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (termsModal) {
-                termsModal.style.display = 'none';
-            }
+        closeTerms.addEventListener('click', () => {
+            termsModal.style.display = 'none';
         });
-    }
 
-    if (acceptTermsBtn) {
-        acceptTermsBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const termsCheckbox = document.getElementById('terms');
-            if (termsCheckbox) {
-                termsCheckbox.checked = true;
-                termsAccepted = true;
-            }
-            
-            if (termsModal) {
-                termsModal.style.display = 'none';
-            }
-            
-            // Mostrar formulario y ocultar aviso
-            if (termsNotice) {
-                termsNotice.style.display = 'none';
-            }
-            
-            if (form) {
-                form.style.display = 'block';
-            }
-            
-            // Habilitar botón de envío
-            updateSubmitButton();
+        acceptTerms.addEventListener('click', () => {
+            termsCheckbox.checked = true;
+            termsModal.style.display = 'none';
         });
-    }
 
-    // Cerrar modal al hacer clic fuera de él
-    if (termsModal) {
-        termsModal.addEventListener('click', (e) => {
+        window.addEventListener('click', (e) => {
             if (e.target === termsModal) {
                 termsModal.style.display = 'none';
             }
         });
     }
 
-    // Manejo del checkbox de términos
-    const termsCheckbox = document.getElementById('terms');
-    if (termsCheckbox) {
-        termsCheckbox.addEventListener('change', () => {
-            termsAccepted = termsCheckbox.checked;
-            updateSubmitButton();
-        });
-    }
-
-    // Función para actualizar el estado del botón de envío
-    function updateSubmitButton() {
-        if (submitBtn) {
-            submitBtn.disabled = !termsAccepted;
-            if (termsAccepted) {
-                submitBtn.textContent = 'Inscribir';
-                submitBtn.classList.remove('disabled');
+    // Manejador para el botón de inicio
+    const btnInicio = document.getElementById('btnInicio');
+    if (btnInicio) {
+        btnInicio.addEventListener('click', () => {
+            // Si ya está autenticado, ir directamente al admin
+            if (localStorage.getItem('isAuthenticated')) {
+                window.location.href = 'admin.html';
             } else {
-                submitBtn.textContent = 'Acepte los términos para continuar';
-                submitBtn.classList.add('disabled');
+                // Si no está autenticado, mostrar el modal de login
+                const loginModal = document.getElementById('loginModal');
+                if (loginModal) {
+                    loginModal.style.display = 'block';
+                }
             }
-        }
-    }
-
-    // Manejo de la notificación de éxito
-    if (closeNotificationBtn) {
-        closeNotificationBtn.addEventListener('click', () => {
-            successNotification.style.display = 'none';
         });
     }
 
-    // Helpers
-    const toggleLoading = (isLoading) => {
-        const button = form.querySelector('button');
-        if (button) {
-            button.disabled = isLoading;
-            const loadingIcon = button.querySelector('i');
-            if (loadingIcon) {
-                loadingIcon.style.display = isLoading ? 'inline-block' : 'none';
-            }
-        }
-    };
+    // Referencias para el login
+    const btnLogin = document.getElementById('btnLogin');
+    const loginModal = document.getElementById('loginModal');
+    const loginForm = document.getElementById('loginForm');
 
-    const getFormData = () => ({
-        studentName: document.getElementById('studentName')?.value || '',
-        parentName: document.getElementById('parentName')?.value || '',
-        email: document.getElementById('email')?.value || '',
-        phone: document.getElementById('phone')?.value || '',
-        routeType: document.getElementById('routeType')?.value || '',
-        paymentMonth: document.getElementById('paymentMonth')?.value || ''
+    // Mostrar modal de login
+    if (btnLogin) {
+        btnLogin.addEventListener('click', () => {
+            console.log('Botón login clickeado'); // Para debugging
+            if (loginModal) {
+                loginModal.style.display = 'block';
+            }
+        });
+    }
+
+    // Cerrar modal
+    if (closeModal) {
+        closeModal.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+    }
+
+    // Cerrar modal al hacer clic fuera
+    window.addEventListener('click', (e) => {
+        if (e.target === loginModal) {
+            loginModal.style.display = 'none';
+        }
     });
 
-    // Función para verificar estado de autorización
-    const checkAuthorizationStatus = () => {
-        const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
-        
-        // Verificar si hay algún registro que cambió de pendiente a pagado
-        registrations.forEach(registration => {
-            if (registration.status === 'paid' && !registration.notified) {
-                showAuthorizedReceipt(registration);
-                // Marcar como notificado para evitar notificaciones repetidas
-                registration.notified = true;
-                localStorage.setItem('registrations', JSON.stringify(registrations));
+    // Manejar envío del formulario de login
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log('Formulario de login enviado'); // Para debugging
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            console.log('Credenciales:', { username, password }); // Para debugging
+
+            if (username === 'admin' && password === 'admin123') {
+                localStorage.setItem('isAuthenticated', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                alert('Usuario o contraseña incorrectos');
             }
         });
-    };
+    }
 
-    const showAuthorizedReceipt = (registration) => {
-        const downloadBtn = document.getElementById('downloadReceipt');
-        const pendingMessage = document.getElementById('pendingMessage');
-        
-        if (downloadBtn) {
-            downloadBtn.style.display = 'block';
-            downloadBtn.onclick = () => {
-                // Generar PDF del comprobante autorizado
-                const receiptData = {
-                    receiptNumber: registration.receiptNumber,
-                    studentName: registration.studentName,
-                    parentName: registration.parentName,
-                    routeType: getRouteTypeName(registration.routeType),
-                    amount: registration.amount,
-                    month: registration.paymentMonth
-                };
-                generatePDF(receiptData);
-            };
-        }
-        
-        if (pendingMessage) {
-            pendingMessage.style.display = 'none';
-        }
-        
-        // Mostrar notificación de autorización
-        showNotification('¡Su pago ha sido verificado! Ya puede descargar el comprobante.', 'success');
-    };
+    // Agregar función para verificar recibo
+    const verificarRecibo = document.getElementById('verificarRecibo');
+    if (verificarRecibo) {
+        verificarRecibo.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nombreEstudiante = document.getElementById('nombreVerificacion').value;
+            const mesVerificacion = document.getElementById('mesVerificacion').value;
+            
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const student = students.find(s => 
+                s.nombreEstudiante.toLowerCase() === nombreEstudiante.toLowerCase() && 
+                s.mes === mesVerificacion
+            );
 
-    const generatePDF = (data) => {
-        // Crear contenido HTML para el PDF
-        const pdfContent = `
-            <div style="text-align: center; font-family: Arial, sans-serif;">
-                <h1>🚌 Ruta Escolar Segura</h1>
-                <h2>Comprobante de Pago Autorizado</h2>
-                <hr>
-                <p><strong>Número:</strong> ${data.receiptNumber}</p>
-                <p><strong>Estudiante:</strong> ${data.studentName}</p>
-                <p><strong>Acudiente:</strong> ${data.parentName}</p>
-                <p><strong>Ruta:</strong> ${data.routeType}</p>
-                <p><strong>Valor:</strong> $${data.amount.toLocaleString()}</p>
-                <p><strong>Mes:</strong> ${data.month}</p>
-                <p><strong>Estado:</strong> ✅ AUTORIZADO</p>
-                <hr>
-                <p><em>Fecha de autorización: ${new Date().toLocaleDateString('es-ES')}</em></p>
+            if (student && student.reciboAutorizado) {
+                generarRecibo(student);
+            } else if (student) {
+                alert('El recibo aún no ha sido autorizado por administración.');
+            } else {
+                alert('No se encontró el registro del estudiante.');
+            }
+        });
+    }
+
+    function generarRecibo(student) {
+        const receiptHTML = `
+            <div id="receipt" class="receipt-container">
+                <div class="receipt-header">
+                    <h2>🚌 Ruta Escolar Segura</h2>
+                    <h3>Recibo de Pago</h3>
+                    <p class="receipt-number">No. ${student.numeroRecibo}</p>
+                </div>
+                
+                <div class="receipt-body">
+                    <div class="receipt-section">
+                        <h4>Datos del Estudiante</h4>
+                        <p><strong>Nombre:</strong> ${student.nombreEstudiante}</p>
+                        <p><strong>Grado:</strong> ${student.grado}</p>
+                    </div>
+
+                    <div class="receipt-section">
+                        <h4>Datos del Acudiente</h4>
+                        <p><strong>Nombre:</strong> ${student.nombreAcudiente}</p>
+                        <p><strong>Teléfono:</strong> ${student.telefono}</p>
+                    </div>
+
+                    <div class="receipt-section">
+                        <h4>Detalles del Servicio</h4>
+                        <p><strong>Tipo de Ruta:</strong> ${student.tipoRuta}</p>
+                        <p><strong>Mes:</strong> ${student.mes}</p>
+                        <p><strong>Valor:</strong> $${student.precio.toLocaleString()}</p>
+                    </div>
+
+                    <div class="receipt-footer">
+                        <p>Recibo Autorizado por Administración</p>
+                        <p>Fecha de emisión: ${new Date().toLocaleDateString()}</p>
+                    </div>
+                </div>
+
+                <div class="receipt-actions">
+                    <button onclick="window.print()" class="btn btn-primary">Imprimir Recibo</button>
+                </div>
             </div>
         `;
-        
-        // Crear elemento temporal para el PDF
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = pdfContent;
-        tempDiv.style.display = 'none';
-        document.body.appendChild(tempDiv);
-        
-        // Generar PDF
-        html2pdf().from(tempDiv).save(`comprobante_${data.receiptNumber}.pdf`);
-        
-        // Limpiar elemento temporal
-        document.body.removeChild(tempDiv);
-    };
 
-    const showNotification = (message, type = 'info') => {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.textContent = message;
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${type === 'success' ? '#4CAF50' : '#2196F3'};
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 5px;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            max-width: 300px;
-        `;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.remove();
-        }, 5000);
-    };
+        // Eliminar recibo anterior si existe
+        const oldReceipt = document.getElementById('receipt');
+        if (oldReceipt) {
+            oldReceipt.remove();
+        }
 
-    // Verificar estado de autorización al cargar la página
-    checkAuthorizationStatus();
-    
-    // Verificar cada 30 segundos si hay cambios
-    setInterval(checkAuthorizationStatus, 30000);
+        // Mostrar nuevo recibo
+        const receiptContainer = document.createElement('div');
+        receiptContainer.innerHTML = receiptHTML;
+        document.querySelector('.container').appendChild(receiptContainer);
+    }
 
     // Inicialización
     initValidation();
