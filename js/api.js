@@ -1,26 +1,42 @@
 // API para comunicación con el servidor
-class RutaEscolarAPI {
+class API {
     constructor() {
-        this.baseURL = 'http://localhost:8000/api';
-        this.isServerMode = window.location.protocol === 'http:';
+        this.baseURL = window.location.origin;
+        this.isAvailable = false;
+        this.checkServerAvailability();
     }
 
-    // Verificar si estamos en modo servidor
+    async checkServerAvailability() {
+        try {
+            const response = await fetch(`${this.baseURL}/api/sync`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            this.isAvailable = response.ok;
+            console.log('🌐 Servidor disponible:', this.isAvailable);
+        } catch (error) {
+            this.isAvailable = false;
+            console.log('💾 Servidor no disponible, usando localStorage:', error.message);
+        }
+    }
+
     isServerAvailable() {
-        return this.isServerMode;
+        return this.isAvailable;
     }
 
-    // Crear nuevo registro
+    // Operaciones CRUD para registros
     async createRegistration(registrationData) {
-        if (!this.isServerAvailable()) {
-            throw new Error('Servidor no disponible. Usa el servidor local.');
+        if (!this.isAvailable) {
+            throw new Error('Servidor no disponible');
         }
 
         try {
-            const response = await fetch(`${this.baseURL}/registrations`, {
+            const response = await fetch(`${this.baseURL}/api/registrations`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     operation: 'create',
@@ -28,60 +44,56 @@ class RutaEscolarAPI {
                 })
             });
 
-            const result = await response.json();
-            
-            if (!result.success) {
-                throw new Error(result.error || 'Error al crear registro');
+            if (!response.ok) {
+                throw new Error(`Error del servidor: ${response.status}`);
             }
 
+            const result = await response.json();
             return result.data;
         } catch (error) {
-            console.error('Error en createRegistration:', error);
+            console.error('Error creando registro:', error);
             throw error;
         }
     }
 
-    // Leer todos los registros
     async getRegistrations() {
-        if (!this.isServerAvailable()) {
-            throw new Error('Servidor no disponible. Usa el servidor local.');
+        if (!this.isAvailable) {
+            throw new Error('Servidor no disponible');
         }
 
         try {
-            const response = await fetch(`${this.baseURL}/registrations`, {
+            const response = await fetch(`${this.baseURL}/api/registrations`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     operation: 'read'
                 })
             });
 
-            const result = await response.json();
-            
-            if (!result.success) {
-                throw new Error(result.error || 'Error al leer registros');
+            if (!response.ok) {
+                throw new Error(`Error del servidor: ${response.status}`);
             }
 
+            const result = await response.json();
             return result.data;
         } catch (error) {
-            console.error('Error en getRegistrations:', error);
+            console.error('Error obteniendo registros:', error);
             throw error;
         }
     }
 
-    // Actualizar registro
     async updateRegistration(id, updateData) {
-        if (!this.isServerAvailable()) {
-            throw new Error('Servidor no disponible. Usa el servidor local.');
+        if (!this.isAvailable) {
+            throw new Error('Servidor no disponible');
         }
 
         try {
-            const response = await fetch(`${this.baseURL}/registrations`, {
+            const response = await fetch(`${this.baseURL}/api/registrations`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     operation: 'update',
@@ -90,30 +102,28 @@ class RutaEscolarAPI {
                 })
             });
 
-            const result = await response.json();
-            
-            if (!result.success) {
-                throw new Error(result.error || 'Error al actualizar registro');
+            if (!response.ok) {
+                throw new Error(`Error del servidor: ${response.status}`);
             }
 
+            const result = await response.json();
             return result;
         } catch (error) {
-            console.error('Error en updateRegistration:', error);
+            console.error('Error actualizando registro:', error);
             throw error;
         }
     }
 
-    // Eliminar registro
     async deleteRegistration(id) {
-        if (!this.isServerAvailable()) {
-            throw new Error('Servidor no disponible. Usa el servidor local.');
+        if (!this.isAvailable) {
+            throw new Error('Servidor no disponible');
         }
 
         try {
-            const response = await fetch(`${this.baseURL}/registrations`, {
+            const response = await fetch(`${this.baseURL}/api/registrations`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     operation: 'delete',
@@ -121,46 +131,44 @@ class RutaEscolarAPI {
                 })
             });
 
-            const result = await response.json();
-            
-            if (!result.success) {
-                throw new Error(result.error || 'Error al eliminar registro');
+            if (!response.ok) {
+                throw new Error(`Error del servidor: ${response.status}`);
             }
 
+            const result = await response.json();
             return result;
         } catch (error) {
-            console.error('Error en deleteRegistration:', error);
+            console.error('Error eliminando registro:', error);
             throw error;
         }
     }
 
-    // Sincronizar datos
-    async syncData() {
-        if (!this.isServerAvailable()) {
-            throw new Error('Servidor no disponible. Usa el servidor local.');
+    // Sincronización
+    async sync() {
+        if (!this.isAvailable) {
+            throw new Error('Servidor no disponible');
         }
 
         try {
-            const response = await fetch(`${this.baseURL}/sync`, {
-                method: 'POST',
+            const response = await fetch(`${this.baseURL}/api/sync`, {
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 }
             });
 
-            const result = await response.json();
-            
-            if (!result.success) {
-                throw new Error(result.error || 'Error al sincronizar datos');
+            if (!response.ok) {
+                throw new Error(`Error del servidor: ${response.status}`);
             }
 
+            const result = await response.json();
             return result.data;
         } catch (error) {
-            console.error('Error en syncData:', error);
+            console.error('Error sincronizando:', error);
             throw error;
         }
     }
 }
 
 // Crear instancia global
-const api = new RutaEscolarAPI();
+const api = new API();

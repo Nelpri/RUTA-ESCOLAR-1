@@ -185,6 +185,7 @@ def main():
     print(f"🌐 Servidor disponible en: http://localhost:{PORT}")
     print(f"👤 Panel de Usuario: http://localhost:{PORT}/index%20ruta1.html")
     print(f"👨‍💼 Panel de Administrador: http://localhost:{PORT}/index.html")
+    print(f"📋 Credenciales Admin: usuario='conductor', contraseña='password'")
     print("⏹️  Presiona Ctrl+C para detener el servidor")
     print("-" * 60)
     
