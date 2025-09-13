@@ -1,6 +1,18 @@
 // CONFIG ya está disponible globalmente
 
-document.addEventListener('DOMContentLoaded', () => {
+// Función de inicialización para el panel de usuario
+function initUserScript() {
+    console.log('👤 Inicializando script de usuario...');
+    
+    // Esperar a que el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeUserInterface);
+    } else {
+        initializeUserInterface();
+    }
+}
+
+function initializeUserInterface() {
     const form = document.getElementById('registrationForm');
     const termsModal = document.getElementById('termsModal');
     const termsLink = document.getElementById('termsLink');
@@ -471,4 +483,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicialización
     initValidation();
-});
+}

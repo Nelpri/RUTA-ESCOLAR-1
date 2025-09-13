@@ -6,17 +6,27 @@ class NotificationSystem {
     }
   
     init() {
-      // Solicitar permiso para notificaciones
-      if ('Notification' in window) {
-        Notification.requestPermission();
-      }
+      // No solicitar permiso automáticamente
+      // Se solicitará solo cuando el usuario interactúe
+      console.log('Sistema de notificaciones inicializado');
     }
   
+    async requestNotificationPermission() {
+      if ('Notification' in window && Notification.permission === 'default') {
+        const permission = await Notification.requestPermission();
+        return permission === 'granted';
+      }
+      return Notification.permission === 'granted';
+    }
+
     async sendPaymentReminder(studentName, parentEmail, dueDate) {
       const message = `Recordatorio de pago para ${studentName}. Fecha límite: ${dueDate}`;
       
+      // Solicitar permiso si es necesario
+      const hasPermission = await this.requestNotificationPermission();
+      
       // Enviar notificación push si está soportado
-      if ('Notification' in window && Notification.permission === 'granted') {
+      if ('Notification' in window && hasPermission) {
         new Notification('Recordatorio de Pago', { body: message });
       }
   

@@ -34,23 +34,40 @@ python servidor-python.py
 ```
 
 Luego abrir en el navegador:
-- **Panel de Usuario:** http://localhost:8000/index%20ruta1.html
-- **Panel de Administrador:** http://localhost:8000/index.html
+- **Aplicación Unificada:** http://localhost:8000/app.html (Recomendado)
 
 ### Opción 2: Abrir Directamente
-Abrir `index ruta1.html` directamente en el navegador (funciona con localStorage).
+Abrir `app.html` directamente en el navegador (funciona con localStorage).
 
-## 🔐 Credenciales de Administrador
+## 🔐 Credenciales de Usuario
 
-- **Usuario:** `conductor`
-- **Contraseña:** `password`
+- **Conductor:** `conductor` / `password` - Gestión de ruta asignada
+- **Administrador:** `admin` / `admin123` - Acceso completo al sistema
+- **Supervisor:** `supervisor` / `super123` - Supervisión de operaciones
+
+## 🛡️ Seguridad
+
+### Características de Seguridad Implementadas:
+- ✅ **Autenticación JWT** - Tokens seguros con expiración
+- ✅ **Sistema de Roles** - 3 niveles de acceso (Admin, Supervisor, Conductor)
+- ✅ **Sincronización Automática** - Datos siempre actualizados
+- ✅ **Rate Limiting** - Protección contra ataques de fuerza bruta
+- ✅ **Validación de entrada** - Sanitización de datos
+- ✅ **Sesiones seguras** - Timeout automático de inactividad
+- ✅ **Protección de API** - Autenticación requerida para operaciones sensibles
+- ✅ **Detección de intentos** - Bloqueo temporal por intentos fallidos
+
+### Configuración de Seguridad:
+- Tokens JWT con expiración de 24 horas
+- Máximo 5 intentos de login antes del bloqueo
+- Bloqueo temporal de 15 minutos por intentos fallidos
+- Rate limiting de 100 requests por minuto
 
 ## 📁 Estructura del Proyecto
 
 ```
 ruta-escolar/
-├── index.html                 # Panel de administración
-├── index ruta1.html          # Panel de usuario
+├── app.html                   # Aplicación unificada
 ├── servidor-python.py        # Servidor local
 ├── README.md                 # Documentación
 ├── css/

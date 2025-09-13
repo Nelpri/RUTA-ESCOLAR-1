@@ -33,10 +33,12 @@ class API {
         }
 
         try {
+            const token = auth.getAuthToken();
             const response = await fetch(`${this.baseURL}/api/registrations`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     operation: 'create',
@@ -62,10 +64,12 @@ class API {
         }
 
         try {
+            const token = auth.getAuthToken();
             const response = await fetch(`${this.baseURL}/api/registrations`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     operation: 'read'
@@ -90,10 +94,12 @@ class API {
         }
 
         try {
+            const token = auth.getAuthToken();
             const response = await fetch(`${this.baseURL}/api/registrations`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     operation: 'update',
@@ -120,10 +126,12 @@ class API {
         }
 
         try {
+            const token = auth.getAuthToken();
             const response = await fetch(`${this.baseURL}/api/registrations`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     operation: 'delete',
